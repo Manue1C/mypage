@@ -1,6 +1,27 @@
 <script lang="ts">
-    // This script tag will contain your Svelte logic
-    let activePage = 'home'; // You can use this to highlight the active page
+    import { onMount } from 'svelte';
+    let activePage = 'home';
+  
+    // Function to check which section is currently in view
+    function onScroll() {
+      const sections = ['home', 'about', 'projects', 'skills', 'contact'];
+      const offsets = sections.map(id => {
+        const element = document.getElementById(id);
+        return element ? element.offsetTop : 0;
+      });
+  
+      const pageOffset = window.pageYOffset + 200; // 200px offset for better matching
+      const currentPageIndex = offsets.findIndex((start, i) => pageOffset >= start && pageOffset < (offsets[i + 1] || Infinity));
+      activePage = sections[currentPageIndex] || sections[0];
+    }
+  
+    // Set up the scroll event listener
+    onMount(() => {
+      window.addEventListener('scroll', onScroll);
+      return () => {
+        window.removeEventListener('scroll', onScroll);
+      };
+    });
   </script>
   
   <nav class="bg-gray-800 p-2 mt-0 fixed w-full z-10 top-0">
@@ -13,19 +34,39 @@
       <div class="flex w-full pt-2 content-center justify-between md:w-1/2 md:justify-end">
         <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
           <li class="mr-3">
-            <a class="inline-block py-2 px-4 text-white no-underline" href="#home">Home</a>
+            <a 
+              class="inline-block py-2 px-4 text-white no-underline hover:text-white hover:no-underline"
+              class:active={activePage === 'home'}
+              href="#home"
+            >Home</a>
           </li>
           <li class="mr-3">
-            <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#about">About</a>
+            <a 
+              class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
+              class:active={activePage === 'about'}
+              href="#about"
+            >About</a>
           </li>
           <li class="mr-3">
-            <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#projects">Projects</a>
+            <a 
+              class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
+              class:active={activePage === 'projects'}
+              href="#projects"
+            >Projects</a>
           </li>
           <li class="mr-3">
-            <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#skills">Skills</a>
+            <a 
+              class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
+              class:active={activePage === 'skills'}
+              href="#skills"
+            >Skills</a>
           </li>
           <li class="mr-3">
-            <a class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="#contact">Contact</a>
+            <a 
+              class="inline-block text-gray-600 no-underline hover:text-gray-200 hover:text-underline py-2 px-4"
+              class:active={activePage === 'contact'}
+              href="#contact"
+            >Contact</a>
           </li>
         </ul>
       </div>
@@ -33,6 +74,7 @@
   </nav>
   
   <style>
-    /* Add any additional styling you need here */
+    .active {
+      color: #4CAF50; /* Highlight color for the active page link */
+    }
   </style>
-  
