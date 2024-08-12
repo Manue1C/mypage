@@ -1,10 +1,32 @@
 <script lang="ts">
-  // Your TypeScript logic here
+  import Navbar from './Navbar.svelte';
+  import About from './About.svelte';
+  import Projects from './Projects.svelte';
+  import Skills from './Skills.svelte';
+  import Contact from './Contact.svelte';
 </script>
 
-<div class="p-4 max-w-md mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
-  <div>
-    <div class="text-xl font-medium text-black">Welcome to My Website</div>
-    <p class="text-gray-500">I'm a security analyst intern with a passion for Cybersecurity, Web Development and Fitness.</p>
+<Navbar />
+
+<section id="home" class="h-screen flex items-center justify-center bg-gray-100">
+  <div class="text-center p-5">
+    <h1 class="text-5xl font-bold text-gray-800">Manuel Coronel</h1>
+    <p class="text-xl mt-4 text-gray-600">Security Analyst | Web Developer | Fitness Enthusiast</p>
   </div>
-</div>
+</section>
+
+<section id="about" class="min-h-screen">
+  <About />
+</section>
+
+<section id="projects" class="min-h-screen">
+  <Projects />
+</section>
+
+<section id="skills" class="min-h-screen">
+  <Skills />
+</section>
+
+<section id="contact" class="min-h-screen">
+  <Contact />
+</section>
