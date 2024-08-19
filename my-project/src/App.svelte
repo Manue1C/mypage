@@ -8,10 +8,10 @@
 
 <Navbar />
 
-<section id="home" class="h-screen flex items-center justify-center bg-gray-100">
-  <div class="text-center p-5">
-    <h1 class="text-5xl font-bold text-gray-800">Manuel Coronel</h1>
-    <p class="text-xl mt-4 text-gray-600">Security Analyst | Web Developer | Fitness Enthusiast</p>
+<section id="home" class="min-h-screen flex items-center justify-center bg-gray-100 text-center p-5">
+  <div>
+    <h1 class="text-4xl sm:text-5xl font-bold text-gray-800">Manuel Coronel</h1>
+    <p class="text-lg sm:text-xl mt-4 text-gray-600">Security Analyst | Web Developer | Fitness Enthusiast</p>
   </div>
 </section>
 
