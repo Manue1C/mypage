@@ -2,3 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+:root[data-theme="fun"] {
+  --bg-color: theme("colors.darkBg");
+  --text-color: theme("colors.neonCyan");
+  --accent-color: theme("colors.neonBlue");
+  --highlight-color: theme("colors.neonPink");
+  --box-shadow: 0 0 20px var(--highlight-color);
+  --text-shadow: 0 0 5px var(--accent-color);
+}
+
+:root[data-theme="professional"] {
+  --bg-color: theme("colors.professionalBg");
+  --text-color: theme("colors.professionalText");
+  --accent-color: theme("colors.professionalAccent");
+  --highlight-color: theme("colors.professionalHighlight");
+  --box-shadow: none;
+  --text-shadow: none;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Orbitron", sans-serif;
+}
+
+:root[data-theme="fun"] body {
+  background: linear-gradient(135deg, var(--bg-color) 25%, #000000 100%);
+  background-size: cover;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--highlight-color);
+}
+
+a {
+  color: var(--accent-color);
+  text-shadow: var(--text-shadow);
+}
+
+a:hover {
+  color: var(--highlight-color);
+}
+
+.container {
+  box-shadow: var(--box-shadow);
+}

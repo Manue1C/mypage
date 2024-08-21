@@ -1,71 +1,86 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  let activePage = 'home';
+  import { onMount } from "svelte";
+  let activePage = "home";
   let isMenuOpen = false;
+  let theme = "professional"; // Default theme
+
+  const navbarHeight = 60; // Adjust this value to match your navbar height
 
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
   }
 
-  // Function to check which section is currently in view
   function onScroll() {
-    const sections = ['home', 'about', 'projects', 'skills', 'contact'];
-    const offsets = sections.map(id => {
+    const sections = ["home", "about", "projects", "skills", "contact"];
+    const offsets = sections.map((id) => {
       const element = document.getElementById(id);
       return element ? element.offsetTop : 0;
     });
-
-    const pageOffset = window.pageYOffset + 200; // 200px offset for better matching
-    const currentPageIndex = offsets.findIndex((start, i) => pageOffset >= start && pageOffset < (offsets[i + 1] || Infinity));
+    const pageOffset = window.pageYOffset + 200;
+    const currentPageIndex = offsets.findIndex(
+      (start, i) =>
+        pageOffset >= start && pageOffset < (offsets[i + 1] || Infinity)
+    );
     activePage = sections[currentPageIndex] || sections[0];
   }
 
-  // Set up the scroll event listener
+  function scrollToSection(event: Event, section: string) {
+    event.preventDefault();
+    const element = document.getElementById(section);
+    if (element) {
+      const offsetTop = element.offsetTop - navbarHeight;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  function toggleTheme() {
+    theme = theme === "fun" ? "professional" : "fun";
+    document.documentElement.setAttribute("data-theme", theme);
+  }
+
   onMount(() => {
-    window.addEventListener('scroll', onScroll);
+    document.documentElement.setAttribute("data-theme", theme);
+    window.addEventListener("scroll", onScroll);
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener("scroll", onScroll);
     };
   });
 </script>
 
-<nav class="bg-gray-800 p-2 mt-0 fixed w-full z-10 top-0">
+<nav class="bg-[var(--bg-color)] p-2 mt-0 fixed w-full z-10 top-0">
   <div class="container mx-auto flex flex-wrap items-center justify-between px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between w-full sm:w-auto">
-      <a class="text-white no-underline hover:text-white hover:no-underline" href="/">
+      <a class="text-[var(--text-color)] no-underline hover:text-[var(--highlight-color)] hover:no-underline" href="/">
         <span class="text-2xl font-extrabold">Manuel's Portfolio</span>
       </a>
-      <button class="text-white sm:hidden" on:click={toggleMenu}>
-        <!-- Replace with an icon or text for the menu -->
-        <span class="text-3xl">☰</span> <!-- Hamburger icon -->
+      <button class="text-[var(--text-color)] sm:hidden" on:click={toggleMenu}>
+        <span class="text-3xl">☰</span>
       </button>
     </div>
-    <div class={`sm:block ${isMenuOpen ? 'block' : 'hidden'}`} id="menu">
+    <div class={`sm:block ${isMenuOpen ? "block" : "hidden"}`} id="menu">
       <ul class="list-reset flex flex-col sm:flex-row justify-end flex-1 items-center">
-        <li class="mr-3">
-          <a class="inline-block py-2 px-4 text-white no-underline hover:text-white hover:no-underline"
-             class:active={activePage === 'home'}
-             href="#home">Home</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block py-2 px-4 text-gray-600 no-underline hover:text-gray-200 hover:text-underline"
-             class:active={activePage === 'about'}
-             href="#about">About</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block py-2 px-4 text-gray-600 no-underline hover:text-gray-200 hover:text-underline"
-             class:active={activePage === 'projects'}
-             href="#projects">Projects</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block py-2 px-4 text-gray-600 no-underline hover:text-gray-200 hover:text-underline"
-             class:active={activePage === 'skills'}
-             href="#skills">Skills</a>
-        </li>
-        <li class="mr-3">
-          <a class="inline-block py-2 px-4 text-gray-600 no-underline hover:text-gray-200 hover:text-underline"
-             class:active={activePage === 'contact'}
-             href="#contact">Contact</a>
+        {#each ["home", "about", "projects", "skills", "contact"] as section}
+          <li class="mr-3">
+            <a
+              class="inline-block py-2 px-4 text-[var(--accent-color)] no-underline hover:text-[var(--highlight-color)] hover:no-underline"
+              class:active={activePage === section}
+              href={`#${section}`}
+              on:click={(event) => scrollToSection(event, section)}
+            >
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+            </a>
+          </li>
+        {/each}
+        <li class="mr-3 flex items-center">
+          <span class="mr-2 text-[var(--text-color)]">Fun</span>
+          <label class="switch">
+            <input type="checkbox" on:change={toggleTheme} checked={theme === "professional"} />
+            <span class="slider round"></span>
+          </label>
+          <span class="ml-2 text-[var(--text-color)]">Professional</span>
         </li>
       </ul>
     </div>
@@ -74,6 +89,58 @@
 
 <style>
   .active {
-    color: #4CAF50; /* Highlight color for the active page link */
+    color: var(--highlight-color); /* Highlight color for the active page link */
+  }
+
+  /* Switch styling */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--accent-color);
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: var(--highlight-color);
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
   }
 </style>
