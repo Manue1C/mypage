@@ -50,7 +50,7 @@
   });
 </script>
 
-<nav class="bg-[var(--bg-color)] p-2 mt-0 fixed w-full z-10 top-0">
+<nav class="fixed w-full flex justify-between items-center p-5 bg-[var(--navbar-bg-color)] shadow-md">
   <div class="container mx-auto flex flex-wrap items-center justify-between px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between w-full sm:w-auto">
       <a class="text-[var(--text-color)] no-underline hover:text-[var(--highlight-color)] hover:no-underline" href="/">
