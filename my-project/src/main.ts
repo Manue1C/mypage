@@ -9,7 +9,10 @@ const app = new App({
 // Initialize Rellax after the DOM has loaded with a slight delay
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
-    new Rellax('.rellax');
+    new Rellax('.rellax', {
+      speed: -2,
+      center: true,
+    });
   }, 100); // 100ms delay
 });
 
