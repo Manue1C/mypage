@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  let activePage = "home";
+  import { onMount } from 'svelte';
+
+  let activePage: string = "home";
   let isMenuOpen = false;
-  let theme = "professional"; // Default theme
+  let theme = "fun"; // Default theme
 
   const navbarHeight = 60; // Adjust this value to match your navbar height
 
@@ -11,17 +12,15 @@
   }
 
   function onScroll() {
-    const sections = ["home", "about", "projects", "skills", "contact"];
-    const offsets = sections.map((id) => {
-      const element = document.getElementById(id);
-      return element ? element.offsetTop : 0;
+    const sections = document.querySelectorAll("section");
+    const scrollPos = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop;
+
+    sections.forEach((section) => {
+      const sectionId = section.getAttribute("id") || "home";
+      if (section.offsetTop <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {
+        activePage = sectionId;
+      }
     });
-    const pageOffset = window.pageYOffset + 200;
-    const currentPageIndex = offsets.findIndex(
-      (start, i) =>
-        pageOffset >= start && pageOffset < (offsets[i + 1] || Infinity)
-    );
-    activePage = sections[currentPageIndex] || sections[0];
   }
 
   function scrollToSection(event: Event, section: string) {

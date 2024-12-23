@@ -9,7 +9,7 @@
   --highlight-color: theme("colors.neonPink");
   --box-shadow: 0 0 20px var(--highlight-color);
   --text-shadow: 0 0 5px var(--accent-color);
-  --navbar-bg-color: linear-gradient(135deg, var(--bg-color) 25%, #000000 100%);
+  --navbar-bg-color: var(--bg-color); /* Solid background color */
 }
 
 :root[data-theme="professional"] {
@@ -19,18 +19,13 @@
   --highlight-color: theme("colors.professionalHighlight");
   --box-shadow: none;
   --text-shadow: none;
-  --navbar-bg-color: var(--bg-color);
+  --navbar-bg-color: var(--bg-color); /* Solid background color */
 }
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: "Orbitron", sans-serif;
-}
-
-:root[data-theme="fun"] body {
-  background: linear-gradient(135deg, var(--bg-color) 25%, #000000 100%);
-  background-size: cover;
 }
 
 h1,
